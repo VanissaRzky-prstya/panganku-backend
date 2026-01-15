@@ -55,4 +55,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+    protected function canAccessPanel(\Illuminate\Contracts\Auth\Authenticatable $user): bool{
+        return $user->role === 'admin';
+    }
 }
