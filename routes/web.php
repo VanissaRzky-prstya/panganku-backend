@@ -20,3 +20,28 @@ Route::get('/',function(){
 Route::middleware('auth')->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
+
+Route::post('/cart/increase/{id}', function ($id){
+    $cart = session()->get('cart', []);
+    if (isset($cart[$id])) {
+        $cart[$id]['qty']++;
+        session()->put('cart', $cart);
+    }
+});
+
+Route::post('/cart/decrease/{id}', function ($id){
+    $cart = session()->get('cart', []);
+    if (isset($cart[$id])) {
+        $cart[$id]['qty']--;
+        if ($cart[$id]['qty'] <= 0) {
+            unset($cart[$id]);
+        }
+        session()->put('cart', $cart);
+    }
+});
+
+Route::post('/cart/remove/{id}', function ($id){
+    $cart = session()->get('cart', []);
+    unset($cart[$id]);
+    session()->put('cart', $cart);
+});

@@ -6,24 +6,39 @@
     <title>panganku</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
     <nav class="bg-green-700 text-white">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-bold text-xl">PANGANKU</div>
-            <ul class="flex space-x-6">
-                <li><a href="#" class="hover:underline">Beranda</a></li>
-                <li><a href="#" class="hover:underline">Keranjang</a></li>
-                <li><a href="#" class="hover:underline">Transaksi</a></li>
-                <li><a href="/account" class="hover:underline">Akun Saya</a></li>
+            <ul class="flex gap-6 items-center">
+                <li><a href="/home" class="hover:underline">Beranda</a></li>
+                <li><a href="/keranjang" class="hover:underline">Keranjang</a></li>
+                <li><a href="/transaksi" class="hover:underline">Transaksi</a></li>
+                <li class="relative group">
+                    <a href="/akun" class="font-semibold hover:underline">Akun Saya</a>
+                    <div class="absolute right-0 mt-2 w-56 bg-white text-black rounded shadow-lg hidden group-hover:block z-50">
+                        <div class="px-4 py-3 border-b">
+                            <p class="font-semibold">{{ auth()->user()->name }}</p>
+                            <p class="text-sm text-gray-600">{{ auth()->user()->email }}</p>
+                        </div>
+                        <form method="POST" action="/login" class="px-4 py-2">
+                            @csrf 
+                            <button class="text-red-600 w-full text-left hover:underline">Logout</button>
+                        </form>
+                    </div>
+                </li> 
             </ul>
         </div>
     </nav>
-    <main class="max-w-7xl mx-auto px-6 py-8">
+
+    <main class="max-w-7xl mx-auto px-6 py-10 w-full">
         @yield('content')
     </main>
-    <footer class="bg-green-700 text-white mt-12">
-        <div class="max-w-7xl mx-auto px-6 py-6 text-center">PANGANKU | Bahan segar keluarga sehat</div>
+
+    <footer class="bg-green-700 text-white">
+        <div class="max-w-7xl mx-auto px-6 py-4 text-center">PANGANKU | Bahan segar keluarga sehat</div>
     </footer>
+    @yield('scripts')
 </body>
 </html>
 
