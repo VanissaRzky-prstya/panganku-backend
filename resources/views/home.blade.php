@@ -40,6 +40,22 @@
 @endsection
 @section('scripts')
 <script>
+function updateCartBadge(){
+    fetch('/cart/count')
+    .then(res=>res.json())
+    .then(data=>{
+        const badge=document.getElementById('cart-badge');
+        if(!badge)return;
+
+        if(data.count>0){
+            badge.classList.remove('hidden');
+            badge.innerText=data.count;
+        }else{
+            badge.classList.add('hidden');
+        }
+    });
+}
+
 function renderCart(id, qty){
     if(qty <= 0){document.getElementById(`cart-control-${id}`).innerHTML = `<button onclick="addToCart(${id})" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-900 transition">+ keranjang</button>`;
         return;
@@ -59,6 +75,7 @@ function addToCart(id) {
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
     }).then(() => {
         renderCart(id, 1);
+        updateCartBadge();
     });
 }
 function increaseQty(id) {
@@ -68,6 +85,7 @@ function increaseQty(id) {
     }).then(() => {
         let qty = parseInt(document.querySelector(`#cart-control-${id} span`).innerText);
         renderCart(id, qty + 1);
+        updateCartBadge();
     });
 }
 function decreaseQty(id) {
@@ -77,6 +95,7 @@ function decreaseQty(id) {
     }).then(() => {
         let qty = parseInt(document.querySelector(`#cart-control-${id} span`).innerText) - 1;
         renderCart(id, qty);
+        updateCartBadge();
     });
 }
 function removeItem(id) {
@@ -85,8 +104,15 @@ function removeItem(id) {
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
     }).then(() => {
         renderCart(id, 0);
+        updateCartBadge();
     });
 }
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded',()=>{
+        updateCartBadge();
+    });
+</script>
+
 @endsection
 

@@ -12,7 +12,10 @@
             <div class="font-bold text-xl">PANGANKU</div>
             <ul class="flex gap-6 items-center">
                 <li><a href="/home" class="hover:underline">Beranda</a></li>
-                <li><a href="/keranjang" class="hover:underline">Keranjang</a></li>
+                <li class="relative">
+                    <a href="/keranjang" class="hover:underline flex items-center gap-1">Keranjang<span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                    </a>
+                </li>
                 <li><a href="/transaksi" class="hover:underline">Transaksi</a></li>
                 <li class="relative group">
                     <a href="/akun" class="font-semibold hover:underline">Akun Saya</a>
@@ -21,9 +24,9 @@
                             <p class="font-semibold">{{ auth()->user()->name }}</p>
                             <p class="text-sm text-gray-600">{{ auth()->user()->email }}</p>
                         </div>
-                        <form method="POST" action="/login" class="px-4 py-2">
+                        <form method="POST" action="/logout">
                             @csrf 
-                            <button class="text-red-600 w-full text-left hover:underline">Logout</button>
+                            <button type="submit" class="text-red-600 w-full text-left hover:underline">Logout</button>
                         </form>
                     </div>
                 </li> 
