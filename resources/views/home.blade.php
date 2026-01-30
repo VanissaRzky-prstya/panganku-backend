@@ -62,7 +62,7 @@ function renderCart(id, qty){
     }
     document.getElementById(`cart-control-${id}`).innerHTML=`
     <div class="flex items-center justify-between gap-2 bg-green-100 p-2 rounded">
-    <button onclick="removeItem(${id})">🗑️</button>
+    <button onclick="removeItem(${id})">🛒</button>
     <button onclick="decreaseQty(${id})">➖</button>
     <span class="font-semibold">${qty}</span>
     <button onclick="increaseQty(${id})">➕</button>

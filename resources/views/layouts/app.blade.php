@@ -34,7 +34,7 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-10 w-full">
+    <main class="max-w-7xl mx-auto px-6 py-10 w-full flex-1">
         @yield('content')
     </main>
 

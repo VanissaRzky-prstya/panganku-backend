@@ -63,6 +63,5 @@ Route::get('/cart/count', function(){
 });
 
 Route::get('/keranjang',function(){
-    $cart=session('cart',[]);
-    return view('keranjang', compact('cart'));
+    return view('cart.index');
 })->middleware('auth');
