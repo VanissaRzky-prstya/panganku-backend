@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <h2 class="text-2xl font-bold mb-6">Halo, {{ auth()->user()->name }} 👋</h2>
 <div class="mb-8"><input type="text" placeholder="Cari produk..."class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"></div>
@@ -9,8 +8,8 @@
         @foreach($kategoris as $kategori)
         <div class="bg-white rounded-lg shadow p-4 text-center">
             <div class="h-20 bg-gray-200 rounded mb-3 overflow-hidden">
-                @if($kategori->image)
-                    <img src="{{ asset('storage/'.$kategori->image) }}" class="h-full w-full object-cover">
+                @if($kategori->foto)
+                    <img src="{{ asset('storage/'.$kategori->foto) }}" class="h-full w-full object-cover">
                 @endif
             </div>
             <p class="font-semibold">{{ $kategori->nama_kategori }}</p>
@@ -40,31 +39,16 @@
 @endsection
 @section('scripts')
 <script>
-function updateCartBadge(){
-    fetch('/cart/count')
-    .then(res=>res.json())
-    .then(data=>{
-        const badge=document.getElementById('cart-badge');
-        if(!badge)return;
-
-        if(data.count>0){
-            badge.classList.remove('hidden');
-            badge.innerText=data.count;
-        }else{
-            badge.classList.add('hidden');
-        }
-    });
-}
-
 function renderCart(id, qty){
-    if(qty <= 0){document.getElementById(`cart-control-${id}`).innerHTML = `<button onclick="addToCart(${id})" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-900 transition">+ keranjang</button>`;
+    if(qty <= 0){
+        document.getElementById(`cart-control-${id}`).innerHTML = `<button onclick="addToCart(${id})" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-900 transition">+ keranjang</button>`;
         return;
     }
     document.getElementById(`cart-control-${id}`).innerHTML=`
     <div class="flex items-center justify-between gap-2 bg-green-100 p-2 rounded">
-    <button onclick="removeItem(${id})">🛒</button>
+    <a href="/keranjang" class="relative text-xl">🛒<span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">${qty}</span></a>
     <button onclick="decreaseQty(${id})">➖</button>
-    <span class="font-semibold">${qty}</span>
+    <span class="font-semibold qty-text">${qty}</span>
     <button onclick="increaseQty(${id})">➕</button>
     </div>
     `;
@@ -73,19 +57,15 @@ function addToCart(id) {
     fetch(`/cart/add/${id}`, {
         method: 'POST',
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-    }).then(() => {
-        renderCart(id, 1);
-        updateCartBadge();
-    });
+    }).then(() =>renderCart(id, 1));
 }
 function increaseQty(id) {
     fetch(`/cart/increase/${id}`, {
         method: 'POST',
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
     }).then(() => {
-        let qty = parseInt(document.querySelector(`#cart-control-${id} span`).innerText);
+        let qty = parseInt(document.querySelector(`#cart-control-${id} .qty-text`).innerText);
         renderCart(id, qty + 1);
-        updateCartBadge();
     });
 }
 function decreaseQty(id) {
@@ -95,24 +75,8 @@ function decreaseQty(id) {
     }).then(() => {
         let qty = parseInt(document.querySelector(`#cart-control-${id} span`).innerText) - 1;
         renderCart(id, qty);
-        updateCartBadge();
-    });
-}
-function removeItem(id) {
-    fetch(`/cart/remove/${id}`, {
-        method: 'POST',
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-    }).then(() => {
-        renderCart(id, 0);
-        updateCartBadge();
     });
 }
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded',()=>{
-        updateCartBadge();
-    });
-</script>
-
 @endsection
 

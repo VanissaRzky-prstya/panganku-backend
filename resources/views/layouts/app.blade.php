@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>panganku</title>
     @vite('resources/css/app.css')
 </head>
@@ -13,8 +14,7 @@
             <ul class="flex gap-6 items-center">
                 <li><a href="/home" class="hover:underline">Beranda</a></li>
                 <li class="relative">
-                    <a href="/keranjang" class="hover:underline flex items-center gap-1">Keranjang<span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
-                    </a>
+                    <a href="/keranjang" class="hover:underline flex items-center gap-1">Keranjang</a>
                 </li>
                 <li><a href="/transaksi" class="hover:underline">Transaksi</a></li>
                 <li class="relative group">
