@@ -11,12 +11,15 @@ class Order extends Model
 
     protected $fillable=[
         'user_id',
-        'alamat',
-        'pengiriman',
+        'invoice_id',
         'subtotal',
         'ongkir',
         'total',
-        'status'
+        'status',
+        'alamat',
+        'cart',
+        'pengiriman',
+        'catatan',
     ];
     protected $casts=[
         'alamat' => 'array',

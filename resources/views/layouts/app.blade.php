@@ -18,7 +18,7 @@
                 </li>
                 <li><a href="/transaksi" class="hover:underline">Transaksi</a></li>
                 <li class="relative group">
-                    <a href="/akun" class="font-semibold hover:underline">Akun Saya</a>
+                    <a href="/akun" class="hover:underline">Akun Saya</a>
                     <div class="absolute right-0 mt-2 w-56 bg-white text-black rounded shadow-lg hidden group-hover:block z-50">
                         <div class="px-4 py-3 border-b">
                             <p class="font-semibold">{{ auth()->user()->name }}</p>

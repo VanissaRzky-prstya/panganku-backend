@@ -79,10 +79,10 @@ for ($i = 1; $i <= 3; $i++) {
     </a>
     @endif  
 </div>
-
+<form method="POST" action="{{ route('checkout.process') }}">
 <div class="bg-white rounded-lg shadow p-4 mb-6">
     <h3 class="font-semibold mb-2">Catatan Pengiriman📝</h3>
-    <textarea class="w-full border rounded-lg p-2 text-gray-500" placeholder="Contoh: taruh di satpam atau depan rumah"></textarea>
+    <textarea name="catatan" class="w-full border rounded-lg p-2 text-gray-500" placeholder="Contoh: taruh di satpam atau depan rumah"></textarea>
 </div>
 @if(!empty($cart))
 <div id="cart-list" class="bg-white rounded-lg shadow p-4 mb-6">
@@ -114,32 +114,31 @@ for ($i = 1; $i <= 3; $i++) {
     </div>
     @endforeach
 </div>
-<form method="POST" action="{{ route('checkout.process') }}">
-    @csrf
-    <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="font-semibold mb-2">Ringkasan Belanja🧾</h3>
-        <div class="mt-6 border-t pt-4 space-y-2">
-            <div class="flex justify-between">
-                <span>Subtotal</span>
-                <span id="subtotal" data-value="{{ $subtotal }}">Rp {{number_format($subtotal)}}</span>
-            </div>
-            <div class="flex justify-between">
-                <span>Ongkir</span>
-                <span id="ongkir">Rp 0</span>
-            </div>
-            <div class="flex justify-between font-bold text-lg">
-                <span>Total Bayar</span>
-                <span id="total" data-value="{{$subtotal}}">Rp {{number_format($subtotal)}}</span>
-            </div>
+@csrf
+<div class="bg-white rounded-lg shadow p-6">
+    <h3 class="font-semibold mb-2">Ringkasan Belanja🧾</h3>
+    <div class="mt-6 border-t pt-4 space-y-2">
+        <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span id="subtotal" data-value="{{ $subtotal }}">Rp {{number_format($subtotal)}}</span>
         </div>
-        <div class="mt-6 text-right">
-            <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-800">Lanjut Bayar</button>
+        <div class="flex justify-between">
+            <span>Ongkir</span>
+            <span id="ongkir">Rp 0</span>
+        </div>
+        <div class="flex justify-between font-bold text-lg">
+            <span>Total Bayar</span>
+            <span id="total" data-value="{{$subtotal}}">Rp {{number_format($subtotal)}}</span>
         </div>
     </div>
+    <div class="mt-6 text-right">
+        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-800">Lanjut Bayar</button>
+    </div>
+</div>
 </form>
 @else
 <div id="empty-cart" class="bg-white rounded-lg shadow p-6 text-center">
-    <p>Keranjang masih kosong X_X</p>
+    <p>Keranjang masih kosong 🛒</p>
     <a href="/home" class="text-green-600 hover:underline">Belanja Sekarang</a>
 </div>
 

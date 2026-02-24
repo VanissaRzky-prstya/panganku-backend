@@ -69,10 +69,6 @@ Route::post('/checkout', [CheckoutController::class, 'process'])
 ->name('checkout.process')
 ->middleware('auth');
 
-Route::get('/checkout/pay/{order}', [OrderController::class, 'pay'])
-    ->name('checkout.pay')
-    ->middleware('auth');
-
 Route::post('/checkout/order', [OrderController::class, 'store'])
     ->name('checkout.order')
     ->middleware('auth');
@@ -80,3 +76,8 @@ Route::post('/checkout/order', [OrderController::class, 'store'])
 Route::get('/checkout/confirm', function () {
     return view('checkout.pay');
 })->name('checkout.pay.preview')->middleware('auth');
+
+Route::post('/xendit/webhook', function (Request $request) {
+    \Log::info('Webhook Xendit:', $request->all());
+    return response()->json(['message' => 'OK']);
+});

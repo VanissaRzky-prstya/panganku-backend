@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('content')
-<h2 class="text-2xl font-bold mb-6">Halo, {{ auth()->user()->name }} 👋</h2>
+<h2 class="text-2xl font-bold mb-4">Halo, {{ auth()->user()->name }} 👋</h2>
 <div class="mb-8"><input type="text" placeholder="Cari produk..."class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"></div>
 <div class="bg-green-700 max-w-20xl mx-auto px-5 py-2 rounded-lg mb-6">
     <h3 class="text-xl font-semibold mb-4 text-white">Kategori Belanja</h3>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-5 mb-6">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-3">
         @foreach($kategoris as $kategori)
-        <div class="bg-white rounded-lg shadow p-4 text-center">
-            <div class="h-20 bg-gray-200 rounded mb-3 overflow-hidden">
+        <div class="bg-white rounded-lg shadow p-3 text-center">
+            <div class="h-20 bg-gray-200 rounded mb-2 overflow-hidden">
                 @if($kategori->foto)
                     <img src="{{ asset('storage/'.$kategori->foto) }}" class="h-full w-full object-cover">
                 @endif
