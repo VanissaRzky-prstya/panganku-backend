@@ -81,3 +81,8 @@ Route::post('/xendit/webhook', function (Request $request) {
     \Log::info('Webhook Xendit:', $request->all());
     return response()->json(['message' => 'OK']);
 });
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/akun',[App\Http\Controllers\AkunController::class, 'index'])->name('akun');
+    Route::post('/akun/update',[App\Http\Controllers\AkunController::class, 'update'])->name('akun.update');
+});

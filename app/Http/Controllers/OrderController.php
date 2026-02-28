@@ -39,6 +39,7 @@ class OrderController extends Controller{
             'description' => 'Pembayaran Pesanan #' . $order->id,
             'success_redirect_url' => url('/payment/success'),
             'failure_redirect_url' => url('/payment/failed'),
+            'payment_methods' =>['BCA','BNI','BRI','MANDIRI','ALFAMART','INDOMARET','OVO','DANA','LINKAJA'],
         ]);
         $invoice = $apiInstance->createInvoice($createInvoiceRequest);
         $order->update([
