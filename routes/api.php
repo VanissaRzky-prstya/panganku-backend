@@ -14,7 +14,7 @@ Route::get('/test', function(){
 Route::get('/products', function(){
     $products = DB::table('produks')->get();
     foreach($products as $p){
-        $p->foto_url=url('storage/'.$p->foto);
+        $p->foto_url= 'http://localhost:8000/storage/'.$p->foto;
     }
     return response()->json([
         'status'=>'success',
@@ -24,21 +24,19 @@ Route::get('/products', function(){
 
 Route::get('/cart/add', function(Request $request){
 
-    $id = $request->id ?? 1;
-
     $cart = session()->get('cart', []);
-
-    if(isset($cart[$id])){
-        $cart[$id]++;
-    } else {
-        $cart[$id] = 1;
+    $result = [];
+    foreach ($cart as $id => $qty) {
+        $produk = DB::table('produks')->where('id', $id)->first();
+        if ($produk){
+            $produk->qty = $qty;
+            $produk->subtotal = $produk->harga * $qty;
+            $result[] = $produk;
+        }
     }
-
-    session()->put('cart', $cart);
 
     return response()->json([
         'status' => 'success',
-        'product_id' => $id,
-        'qty' => $cart[$id]
+        'data' => $result,
     ]);
 });
