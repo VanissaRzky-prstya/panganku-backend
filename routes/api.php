@@ -23,7 +23,21 @@ Route::get('/products', function(){
 });
 
 Route::get('/cart/add', function(Request $request){
+    $id = $request->id;
+    $cart = session()->get('cart', []);
+    if(isset($cart[$id])){
+        $cart[$id]++;
+    }else{
+        $cart[$id]=1;
+    }
+    session()->put('cart', $cart);
 
+    return response()->json([
+        'status' => 'success'
+    ]);
+});
+
+Route::get('/cart', function(){
     $cart = session()->get('cart', []);
     $result = [];
     foreach ($cart as $id => $qty) {
@@ -38,5 +52,32 @@ Route::get('/cart/add', function(Request $request){
     return response()->json([
         'status' => 'success',
         'data' => $result,
+    ]);
+});
+
+Route::get('/cart/plus', function(Request $request){
+    $id=$request->id;
+    $cart=session()->get('cart', []);
+    if(isset($cart[$id])){
+        $cart[$id]++;
+    }
+    session()->put('cart', $cart);
+    return response()->json([
+        'status'=> 'success'
+    ]);
+});
+
+Route::get('/cart/minus', function(Request $request){
+    $id=$request->id;
+    $cart=session()->get('cart',[]);
+    if(isset($cart[$id])){
+        $cart[$id]--;
+        if($cart[$id] <= 0){
+            unset($cart[$id]);
+        }
+    }
+    session()->put('cart', $cart);
+    return response()->json([
+        'status' => 'success'
     ]);
 });
